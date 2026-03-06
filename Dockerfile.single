@@ -1,0 +1,7 @@
+FROM python:3.10.20
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+COPY hello.py .
+EXPOSE 5000
+CMD ["python", "hello.py"]
