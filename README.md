@@ -149,3 +149,17 @@ CMD ["python", "hello.py"]
 
 - removing the container and creating a new one will not remove the files
   ![new](assets/2026-03-06-15-35-45.png)
+
+## Lab 03
+
+### Problem 03
+
+- create nginx container on network 1
+  ![net](assets/2026-03-08-22-13-08.png)
+- create flask app on network 1 and network 2
+  ![flask](assets/2026-03-08-22-14-34.png)
+- run mariadb in network 2
+  ![mariadb](assets/2026-03-08-22-18-14.png)
+- since nginx and flask app in the same network the can ping each other using container name
+  ![ping](assets/2026-03-08-22-20-26.png)
+
