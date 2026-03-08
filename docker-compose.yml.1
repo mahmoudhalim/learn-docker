@@ -1,0 +1,17 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: my_nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql-dev
+    environment:
+      MYSQL_ROOT_PASSWORD: "password@@"
+      MYSQL_DATABASE: "test_db"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "1022"

@@ -12,6 +12,10 @@
   - [Lab 02](#lab-02)
     - [Problem 01](#lab-02-problem-01)
     - [Problem 02](#lab-02-problem-02)
+  - [Lab 03](#lab-03)
+    - [Problem 01](#lab-03-problem-01)
+    - [Problem 02](#lab-03-problem-02)
+    - [Problem 03](#lab-03-problem-03)
     <!--toc:end-->
 
 ## Lab 01
@@ -152,7 +156,11 @@ CMD ["python", "hello.py"]
 
 ## Lab 03
 
-### Problem 03
+<a id="lab-03"></a>
+
+### Problem 01
+
+<a id="lab-03-problem-01"></a>
 
 - create nginx container on network 1
   ![net](assets/2026-03-08-22-13-08.png)
@@ -163,3 +171,66 @@ CMD ["python", "hello.py"]
 - since nginx and flask app in the same network the can ping each other using container name
   ![ping](assets/2026-03-08-22-20-26.png)
 
+### Problem 02
+
+<a id="lab-03-problem-02"></a>
+
+```yml
+services:
+  nginx:
+    image: nginx:latest
+    container_name: my_nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql-dev
+    environment:
+      MYSQL_ROOT_PASSWORD: "password@@"
+      MYSQL_DATABASE: "test_db"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "1022"
+```
+
+- now the services can run
+  ![compose](assets/2026-03-08-22-03-06.png)
+
+### Problem 03
+
+<a id="lab-03-problem-03"></a>
+
+- create Docker file for the flask app
+
+```Dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install  -r requirements.txt
+COPY app.py .
+CMD ["python", "app.py"]
+```
+
+- create docker compose file to run redis with the flask app
+
+```yaml
+version: "3"
+services:
+  flask-app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis-db
+
+  redis-db:
+    image: "redis:7-alpine"
+```
+
+- run the services using docker compose up
+  ![up](assets/2026-03-08-23-29-19.png)
+
+- now the app runs perfectly
+  ![hits](assets/2026-03-08-23-53-10.png)
